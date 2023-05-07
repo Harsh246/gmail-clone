@@ -1,0 +1,32 @@
+.section--box {
+  padding: 0 10px;
+  color: #a3a3a3;
+}
+.section {
+  display: flex;
+  align-items: center;
+  min-width: 200px;
+  border-bottom-width: 2px;
+  border-width: 0 !important;
+  cursor: pointer;
+  padding: 15px;
+  background-color: transparent;
+}
+.section > p {
+  margin-left: 10px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.section--selected {
+  border-width: 3px !important;
+}
+
+.section--box:hover {
+  background-color: whitesmoke;
+  /* border-width: 3px !important; */
+}
+
+* {
+  transition: all 0.2s ease;
+}

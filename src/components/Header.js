@@ -6,37 +6,39 @@ import { Avatar, IconButton } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import AppsIcon from "@mui/icons-material/Apps";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import { HelpOutlined, SettingsOutlined } from "@mui/icons-material";
+import { TuneOutlined } from "@mui/icons-material";
 function Header() {
   return (
     <div className="header">
       <div className="header__left">
         <IconButton>
-          <MenuIcon fontSize="large" />
+          <MenuIcon />
         </IconButton>
         <img
-          src="https://cdn.vox-cdn.com/thumbor/x1-9UwiB_BeLufaPfDTRaLrACBo=/0x0:1320x880/1200x628/filters:focal(660x440:661x441)/cdn.vox-cdn.com/uploads/chorus_asset/file/21939811/newgmaillogo.jpg"
+          src="https://ssl.gstatic.com/ui/v1/icons/mail/rfr/logo_gmail_lockup_default_2x_r5.png"
           alt=""
         />
       </div>
 
       <div className="header__middle">
-        <SearchIcon fontSize="large" />
+        <SearchIcon />
         <input placeholder="Search mail" type="text" />
-        <ArrowDropDownIcon
-          fontSize="large"
-          className="header__inputCaret"
-        />{" "}
+        <TuneOutlined className="header__inputCaret" />{" "}
       </div>
 
       <div className="header__right">
         <IconButton>
-          <AppsIcon fontSize="large" />
+          <HelpOutlined />
         </IconButton>
         <IconButton>
-          <NotificationsIcon fontSize="large" />
+          <SettingsOutlined />
         </IconButton>
         <IconButton>
-          <Avatar size="small" />
+          <AppsIcon />
+        </IconButton>
+        <IconButton>
+          <Avatar sx={{ width: "28px", height: "28px" }} />
         </IconButton>
       </div>
     </div>

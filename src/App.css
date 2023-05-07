@@ -1,0 +1,25 @@
+.app {
+  height: 100vh;
+  color: #1f1f1f;
+  max-height: 100vh;
+  overflow: hidden;
+}
+
+.app__body {
+  display: flex;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  background-color: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #aeacaccc;
+  height: 50px;
+  border: 5px solid #cdd0d0;
+}
+
+.lg-font {
+  color: rgb(156, 155, 155);
+}
