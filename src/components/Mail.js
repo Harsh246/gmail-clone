@@ -93,7 +93,7 @@ function Mail() {
           <div className="mail__bodyContent">
             <div className="mail__bodyContentInfo">
               <div className="mail__bodyContentInfoLeft">
-                <Typography sx={{ fontWeight: 600, fontSize: "15px" }}>
+                <Typography sx={{ fontWeight: 500, fontSize: "15px" }}>
                   Play.ht
                   <Typography
                     className="lg-font"

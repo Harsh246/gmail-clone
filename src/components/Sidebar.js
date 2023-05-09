@@ -16,13 +16,18 @@ import {
   StarOutline,
 } from "@mui/icons-material";
 import SidebarOption from "./SidebarOption";
+
+import { openSendMessage } from "../features/mailSlice";
+import { useDispatch } from "react-redux";
 function Sidebar() {
+  const dispatch = useDispatch();
   return (
     <div className="sidebar">
       <Button
         className="sidebar__compose"
         startIcon={<CreateOutlined fontSize="large" />}
-        sx={{ color: "#212111", fontWeight: 600 }}
+        sx={{ color: "#212111", fontWeight: 500 }}
+        onClick={() => dispatch(openSendMessage())}
       >
         Compose
       </Button>

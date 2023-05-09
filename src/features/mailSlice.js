@@ -1,8 +1,8 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-// import { fetchCount } from "./counter/counterAPI";
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   sendMessageIsOpen: false,
+  sendMessageIsMinimized: false,
 };
 
 export const mailSlice = createSlice({
@@ -10,23 +10,23 @@ export const mailSlice = createSlice({
   initialState,
   reducers: {
     openSendMessage: (state) => {
+      state.sendMessageIsMinimized = false;
       state.sendMessageIsOpen = true;
     },
     closeSendMessage: (state) => {
       state.sendMessageIsOpen = false;
     },
-    decrement: (state) => {
-      state.value -= 1;
-    },
-    // Use the PayloadAction type to declare the contents of `action.payload`
-    incrementByAmount: (state, action) => {
-      state.value += action.payload;
+    toggleSendMessage: (state) => {
+      state.sendMessageIsMinimized = !state.sendMessageIsMinimized;
     },
   },
 });
 
-export const { openSendMessage, closeSendMessage, incrementByAmount } =
+export const { openSendMessage, closeSendMessage, toggleSendMessage } =
   mailSlice.actions;
-export const selectCount = (state) => state.counter.value;
+
+export const selectSendMessageIsOpen = (state) => state.mail.sendMessageIsOpen;
+export const selectSendMessageIsMinimized = (state) =>
+  state.mail.sendMessageIsMinimized;
 
 export default mailSlice.reducer;

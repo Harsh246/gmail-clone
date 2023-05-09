@@ -1,0 +1,87 @@
+.sendMail {
+  position: absolute;
+  bottom: 0;
+  right: 7rem;
+  width: 500px;
+  height: 75vh;
+  background-color: white;
+  z-index: 1000;
+  border-radius: 10px 10px 0 0;
+
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0px 0px 10px 2px #0d0d0d60;
+}
+
+.sendMail--close {
+  bottom: -100vh;
+}
+.sendMail--open {
+  display: flex;
+}
+.sendMail--minimized {
+  bottom: -70vh;
+  width: 300px;
+}
+.sendMail__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f2f6fc;
+  padding: 10px 0;
+  font-weight: 600;
+  border-radius: 10px 10px 0 0;
+  height: 5vh;
+}
+.sendMail__headerTools {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 12px;
+  gap: 10px;
+}
+.sendMail__body {
+  padding: 0 16px;
+}
+
+.sendMail__to,
+.sendMail__subject {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+
+  box-sizing: border-box;
+  border-bottom: 2px solid whitesmoke;
+}
+
+.sendMail__to > input,
+.sendMail__subject > input {
+  border: none;
+  width: 100%;
+  padding: 0 10px;
+  background-color: transparent;
+  outline: none;
+  line-height: 1.25rem;
+  font-size: 0.875rem;
+  letter-spacing: 0.0142857143em;
+  font-weight: 400;
+}
+
+.sendMail__message {
+  flex: 1;
+  /* background-color: whitesmoke; */
+  height: 100%;
+  padding: 5px 16px;
+  max-height: 50vh;
+  overflow: auto;
+}
+
+.sendMail__message:focus-visible {
+  border: none;
+  /* background-color: transparent; */
+  outline: none;
+}
+
+.sendMail__footer {
+  padding: 10px 16px;
+}

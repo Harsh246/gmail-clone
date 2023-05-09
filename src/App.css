@@ -1,12 +1,16 @@
 .app {
   height: 100vh;
-  color: #1f1f1f;
+  color: #444746;
   max-height: 100vh;
   overflow: hidden;
 }
 
 .app__body {
   display: flex;
+}
+
+.dark {
+  color: #041e49 !important;
 }
 
 *::-webkit-scrollbar {
