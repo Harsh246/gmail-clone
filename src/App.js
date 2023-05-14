@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./styles/App.css";
+import "./App.css";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 import { Routes, Route } from "react-router-dom";
@@ -11,7 +11,7 @@ import { login, selectIsLoggedIn } from "./redux/userSlice";
 import Login from "./components/Login";
 import SentList from "./components/SentList";
 import { useCookies } from "react-cookie";
-import { Backdrop, CircularProgress, Skeleton } from "@mui/material";
+import { Backdrop, CircularProgress } from "@mui/material";
 
 function App() {
   const isLoggedIn = useSelector(selectIsLoggedIn);
@@ -41,7 +41,7 @@ function App() {
     return (
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open="true"
+        open={true}
       >
         <CircularProgress color="inherit" />
       </Backdrop>

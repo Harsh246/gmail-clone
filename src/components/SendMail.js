@@ -5,7 +5,7 @@ import {
 } from "@mui/icons-material";
 import { Button, TextareaAutosize, Typography } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
-import "./styles/SendMail.css";
+import "../styles/SendMail.css";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectSendMessageIsOpen,
@@ -56,6 +56,7 @@ function SendMail() {
     reset();
     ref.current.innerText = "";
     dispatch(closeSendMessage());
+    debugger;
   };
   return (
     <form

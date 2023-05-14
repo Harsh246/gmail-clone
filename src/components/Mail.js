@@ -1,5 +1,5 @@
 import React from "react";
-import "./styles/Mail.css";
+import "../styles/Mail.css";
 import { Avatar, Container, IconButton, Typography } from "@mui/material";
 import {
   ArrowBackOutlined,
@@ -115,7 +115,7 @@ function Mail() {
 
               <div className="mail__bodyContentInfoRight">
                 <Typography className="lg-font" variant="caption">
-                  {new Date(mail?.time?.toDate).toDateString()}
+                  {mail?.time}
                 </Typography>
 
                 <IconButton>

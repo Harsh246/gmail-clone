@@ -1,5 +1,5 @@
 import React from "react";
-import "./Header.css";
+import "../styles/Header.css";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import { Avatar, IconButton } from "@mui/material";
@@ -11,9 +11,17 @@ import { TuneOutlined } from "@mui/icons-material";
 import { useSelector, useDispatch } from "react-redux";
 import { selectUser } from "../redux/userSlice";
 import { logout } from "../redux/userSlice";
+import { useCookies } from "react-cookie";
 function Header() {
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
+
+  const [, , removeCookie] = useCookies();
+  const handleLogout = () => {
+    removeCookie("access_token");
+
+    dispatch(logout());
+  };
 
   return (
     <div className="header">
@@ -47,7 +55,7 @@ function Header() {
           <Avatar
             src={user?.photoUrl}
             sx={{ width: "28px", height: "28px" }}
-            onClick={() => dispatch(logout())}
+            onClick={handleLogout}
           />
         </IconButton>
       </div>

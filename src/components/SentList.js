@@ -1,5 +1,5 @@
 import React from "react";
-import "./styles/EmailList.css";
+import "../styles/EmailList.css";
 import { Checkbox, IconButton } from "@mui/material";
 import {
   ArrowDropDown,

@@ -1,5 +1,5 @@
 import React from "react";
-import "./styles/Login.css";
+import "../styles/Login.css";
 import { Button } from "@mui/material";
 
 import Backdrop from "@mui/material/Backdrop";

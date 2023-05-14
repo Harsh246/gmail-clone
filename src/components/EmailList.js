@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
-import "./styles/EmailList.css";
+import React, { useEffect, useRef, useState } from "react";
+import "../styles/EmailList.css";
 import { Checkbox, IconButton } from "@mui/material";
+import autoAnimate from "@formkit/auto-animate";
 import {
   ArrowDropDown,
   ChevronLeft,
@@ -31,8 +32,16 @@ function EmailList() {
   const user = useSelector(selectUser);
   const [emails, setEmails] = useState([]);
 
+  const parent = useRef(null);
+
+  useEffect(() => {
+    parent.current && autoAnimate(parent.current);
+  }, [parent]);
+
   useEffect(() => {
     // fetchEmails();
+
+    console.log("rerendered");
 
     try {
       const emailsCollection = collection(db, "emails");
@@ -47,20 +56,29 @@ function EmailList() {
         getDocs(emailsQuery)
           .then((querySnapshot) => {
             const emailList = [];
-            querySnapshot.forEach((doc) => emailList.push(doc.data()));
+            querySnapshot.forEach((doc) =>
+              emailList.push(doc.data({ serverTimestamps: "previous" }))
+            );
             setEmails(emailList);
+            console.log("reee");
           })
 
           .catch((error) => {});
       };
 
       onSnapshot(emailsQuery, (querySnapshot) => {
-        querySnapshot.docChanges().forEach((change) => {
+        console.log("querySnapshot: ", querySnapshot);
+        setTimeout(() => {
           fetchUpdatedQuery();
-        });
+        }, 1500);
       });
     } catch (err) {}
-  }, []);
+  }, [user.email]);
+
+  useEffect(() => {
+    console.log(emails);
+  }, [emails]);
+
   return (
     <div className="emailList">
       <div className="emailList__settings">
@@ -97,7 +115,7 @@ function EmailList() {
           <Section title="Social" Icon={Person} color="#1A73E8" />
           <Section title="Promotions" Icon={LocalOffer} color="green" />
         </div>
-        <div className="emailList__container">
+        <div className="emailList__container" ref={parent}>
           {emails?.map((data) => (
             <EmailRow key={data?.time?.toDate().toISOString()} email={data} />
           ))}

@@ -1,5 +1,5 @@
 import React from "react";
-import "./styles/EmailRow.css";
+import "../styles/EmailRow.css";
 import { Checkbox, IconButton } from "@mui/material";
 import {
   LabelImportantOutlined,
@@ -17,6 +17,7 @@ function EmailRow({ email }) {
   const dispatch = useDispatch();
 
   const handleClick = () => {
+    email.time = new Date(email.time?.toDate()).toDateString();
     dispatch(setSelectedMail(email));
     navigate("/mail");
   };
