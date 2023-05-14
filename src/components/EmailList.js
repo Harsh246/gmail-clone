@@ -1,24 +1,66 @@
-import React from "react";
-import "./EmailList.css";
+import React, { useEffect, useState } from "react";
+import "./styles/EmailList.css";
 import { Checkbox, IconButton } from "@mui/material";
 import {
   ArrowDropDown,
-  ArrowLeft,
-  ArrowRight,
   ChevronLeft,
   ChevronRight,
   Inbox,
-  KeyboardHide,
   LocalOffer,
   MoreVert,
   Person,
   RefreshOutlined,
-  Settings,
 } from "@mui/icons-material";
 import Section from "./Section";
 import EmailRow from "./EmailRow";
+import { db } from "../firebase";
+
+import {
+  collection,
+  query,
+  where,
+  orderBy,
+  getDocs,
+  onSnapshot,
+} from "firebase/firestore";
+
+import { useSelector } from "react-redux";
+import { selectUser } from "../redux/userSlice";
 
 function EmailList() {
+  const user = useSelector(selectUser);
+  const [emails, setEmails] = useState([]);
+
+  useEffect(() => {
+    // fetchEmails();
+
+    try {
+      const emailsCollection = collection(db, "emails");
+
+      const emailsQuery = query(
+        emailsCollection,
+        where("to", "==", user.email),
+        orderBy("time", "desc")
+      );
+
+      const fetchUpdatedQuery = () => {
+        getDocs(emailsQuery)
+          .then((querySnapshot) => {
+            const emailList = [];
+            querySnapshot.forEach((doc) => emailList.push(doc.data()));
+            setEmails(emailList);
+          })
+
+          .catch((error) => {});
+      };
+
+      onSnapshot(emailsQuery, (querySnapshot) => {
+        querySnapshot.docChanges().forEach((change) => {
+          fetchUpdatedQuery();
+        });
+      });
+    } catch (err) {}
+  }, []);
   return (
     <div className="emailList">
       <div className="emailList__settings">
@@ -56,149 +98,9 @@ function EmailList() {
           <Section title="Promotions" Icon={LocalOffer} color="green" />
         </div>
         <div className="emailList__container">
-          <EmailRow
-            title="Twitch"
-            subject="I need to talk"
-            description={"we should talk"}
-            time={"10:25AM"}
-          />{" "}
-          <EmailRow
-            title="Twitch"
-            subject="I need to talk"
-            description={"we should talk"}
-            time={"10:25AM"}
-          />{" "}
-          <EmailRow
-            title="Twitch"
-            subject="I need to talk"
-            description={"we should talk"}
-            time={"10:25AM"}
-          />{" "}
-          <EmailRow
-            title="Twitch"
-            subject="I need to talk"
-            description={"we should talk"}
-            time={"10:25AM"}
-          />{" "}
-          <EmailRow
-            title="Twitch"
-            subject="I need to talk"
-            description={"we should talk"}
-            time={"10:25AM"}
-          />{" "}
-          <EmailRow
-            title="Twitch"
-            subject="I need to talk"
-            description={"we should talk"}
-            time={"10:25AM"}
-          />{" "}
-          <EmailRow
-            title="Twitch"
-            subject="I need to talk"
-            description={"we should talk"}
-            time={"10:25AM"}
-          />{" "}
-          <EmailRow
-            title="Twitch"
-            subject="I need to talk"
-            description={"we should talk"}
-            time={"10:25AM"}
-          />{" "}
-          <EmailRow
-            title="Twitch"
-            subject="I need to talk"
-            description={"we should talk"}
-            time={"10:25AM"}
-          />{" "}
-          <EmailRow
-            title="Twitch"
-            subject="I need to talk"
-            description={"we should talk"}
-            time={"10:25AM"}
-          />{" "}
-          <EmailRow
-            title="Twitch"
-            subject="I need to talk"
-            description={"we should talk"}
-            time={"10:25AM"}
-          />{" "}
-          <EmailRow
-            title="Twitch"
-            subject="I need to talk"
-            description={"we should talk"}
-            time={"10:25AM"}
-          />{" "}
-          <EmailRow
-            title="Twitch"
-            subject="I need to talk"
-            description={"we should talk"}
-            time={"10:25AM"}
-          />{" "}
-          <EmailRow
-            title="Twitch"
-            subject="I need to talk"
-            description={"we should talk"}
-            time={"10:25AM"}
-          />{" "}
-          <EmailRow
-            title="Twitch"
-            subject="I need to talk"
-            description={"we should talk"}
-            time={"10:25AM"}
-          />{" "}
-          <EmailRow
-            title="Twitch"
-            subject="I need to talk"
-            description={"we should talk"}
-            time={"10:25AM"}
-          />{" "}
-          <EmailRow
-            title="Twitch"
-            subject="I need to talk"
-            description={"we should talk"}
-            time={"10:25AM"}
-          />{" "}
-          <EmailRow
-            title="Twitch"
-            subject="I need to talk"
-            description={"we should talk"}
-            time={"10:25AM"}
-          />{" "}
-          <EmailRow
-            title="Twitch"
-            subject="I need to talk"
-            description={"we should talk"}
-            time={"10:25AM"}
-          />{" "}
-          <EmailRow
-            title="Twitch"
-            subject="I need to talk"
-            description={"we should talk"}
-            time={"10:25AM"}
-          />{" "}
-          <EmailRow
-            title="Twitch"
-            subject="I need to talk"
-            description={"we should talk"}
-            time={"10:25AM"}
-          />
-          {/* <EmailRow />
-        <EmailRow />
-        <EmailRow />
-        <EmailRow />
-        <EmailRow />
-        <EmailRow />
-        <EmailRow />
-        <EmailRow />
-        <EmailRow />
-        <EmailRow />
-        <EmailRow />
-        <EmailRow />
-        <EmailRow />
-        <EmailRow />
-        <EmailRow />
-        <EmailRow />
-        <EmailRow /> */}
+          {emails?.map((data) => (
+            <EmailRow key={data?.time?.toDate().toISOString()} email={data} />
+          ))}
         </div>
       </section>
     </div>

@@ -1,5 +1,5 @@
 import React from "react";
-import "./Mail.css";
+import "./styles/Mail.css";
 import { Avatar, Container, IconButton, Typography } from "@mui/material";
 import {
   ArrowBackOutlined,
@@ -7,30 +7,32 @@ import {
   DeleteOutlined,
   EmailOutlined,
   ErrorOutline,
-  ExitToAppOutlined,
   LabelImportantOutlined,
   MoreVertOutlined,
   MoveToInboxOutlined,
   PrintOutlined,
-  UnfoldMoreOutlined,
   LaunchOutlined,
   WatchLaterOutlined,
   ChevronLeft,
   ChevronRight,
   DriveFileMoveOutlined,
-  ArrowDownward,
   ArrowDropDown,
   StarOutline,
   ReplyOutlined,
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectedMail } from "../redux/mailSlice";
 function Mail() {
   const navigate = useNavigate();
+
+  const mail = useSelector(selectedMail);
+
   return (
     <div className="mail">
       <div className="mail__tools">
         <div className="mail__toolsLeft">
-          <IconButton onClick={() => navigate("/")}>
+          <IconButton onClick={() => navigate(-1)}>
             <ArrowBackOutlined fontSize="small" />
           </IconButton>
           <IconButton>
@@ -73,7 +75,7 @@ function Mail() {
 
       <div className="mail__body">
         <div className="mail__bodyHeader">
-          <h2>Verify your email address</h2>
+          <h2>{mail?.subject}</h2>
 
           <div className="mail__bodyHeaderTools">
             <IconButton>
@@ -94,7 +96,7 @@ function Mail() {
             <div className="mail__bodyContentInfo">
               <div className="mail__bodyContentInfoLeft">
                 <Typography sx={{ fontWeight: 500, fontSize: "15px" }}>
-                  Play.ht
+                  {mail?.sentBy || "Play.ht"}
                   <Typography
                     className="lg-font"
                     variant="caption"
@@ -113,7 +115,7 @@ function Mail() {
 
               <div className="mail__bodyContentInfoRight">
                 <Typography className="lg-font" variant="caption">
-                  Sun, May 7, 1:00 AM (23 hours ago)
+                  {new Date(mail?.time?.toDate).toDateString()}
                 </Typography>
 
                 <IconButton>
@@ -128,7 +130,7 @@ function Mail() {
               </div>
             </div>
 
-            <div className="mail__message">Tesla is booming 🔥</div>
+            <div className="mail__message">{mail?.message}</div>
           </div>
         </div>
       </div>

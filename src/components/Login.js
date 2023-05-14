@@ -1,20 +1,20 @@
 import React from "react";
-import "./Login.css";
+import "./styles/Login.css";
 import { Button } from "@mui/material";
 
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 
 import { useSelector } from "react-redux";
-import { selectLoading } from "../features/userSlice";
+import { selectLoading } from "../redux/userSlice";
 import { auth, provider } from "../firebase";
 import { signInWithPopup } from "firebase/auth";
 import { useDispatch } from "react-redux";
-import { login, logout } from "../features/userSlice";
+import { login, logout, toggleLoadingState } from "../redux/userSlice";
 
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
-
+import { useCookies } from "react-cookie";
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
@@ -22,15 +22,19 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 function Login() {
   const loading = useSelector(selectLoading);
   const dispatch = useDispatch();
+
+  const [cookies, setCookie] = useCookies();
+
   const [open, setOpen] = React.useState(false);
 
   const signIn = () => {
-    setOpen(true);
+    // setOpen(true);
+
+    dispatch(toggleLoadingState());
 
     signInWithPopup(auth, provider)
       .then((result) => {
         const user = result.user;
-        console.log("user: ", user);
         dispatch(
           login({
             displayName: user.displayName,
@@ -38,10 +42,31 @@ function Login() {
             photoUrl: user.photoURL,
           })
         );
+
+        let expires = new Date();
+        // expires.setTime(expires.getTime() + 60 * 1000);
+
+        expires.setDate(expires.getDate() + 1);
+        setCookie("access_token", user.accessToken, {
+          path: "/",
+          expires,
+        });
+        setCookie("display_name", user.displayName, {
+          path: "/",
+          expires,
+        });
+        setCookie("email", user.email, {
+          path: "/",
+          expires,
+        });
+        setCookie("photo_url", user.photoURL, {
+          path: "/",
+          expires,
+        });
       })
       .catch((err) => {
-        console.log("err: ", err);
-        dispatch(logout);
+        dispatch(logout());
+        setOpen(true);
       });
   };
   return (

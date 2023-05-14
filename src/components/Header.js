@@ -8,7 +8,13 @@ import AppsIcon from "@mui/icons-material/Apps";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { HelpOutlined, SettingsOutlined } from "@mui/icons-material";
 import { TuneOutlined } from "@mui/icons-material";
+import { useSelector, useDispatch } from "react-redux";
+import { selectUser } from "../redux/userSlice";
+import { logout } from "../redux/userSlice";
 function Header() {
+  const user = useSelector(selectUser);
+  const dispatch = useDispatch();
+
   return (
     <div className="header">
       <div className="header__left">
@@ -38,7 +44,11 @@ function Header() {
           <AppsIcon />
         </IconButton>
         <IconButton>
-          <Avatar sx={{ width: "28px", height: "28px" }} />
+          <Avatar
+            src={user?.photoUrl}
+            sx={{ width: "28px", height: "28px" }}
+            onClick={() => dispatch(logout())}
+          />
         </IconButton>
       </div>
     </div>

@@ -4,41 +4,62 @@ import {
   MinimizeOutlined,
 } from "@mui/icons-material";
 import { Button, TextareaAutosize, Typography } from "@mui/material";
-import React, { useRef } from "react";
-import "./SendMail.css";
+import React, { useEffect, useRef, useState } from "react";
+import "./styles/SendMail.css";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectSendMessageIsOpen,
   selectSendMessageIsMinimized,
-} from "../features/mailSlice";
+} from "../redux/mailSlice";
 import { useForm } from "react-hook-form";
 
-import { closeSendMessage, toggleSendMessage } from "../features/mailSlice";
+import { closeSendMessage, toggleSendMessage } from "../redux/mailSlice";
 import { db } from "../firebase";
-import { getFirestore, serverTimestamp } from "firebase/firestore";
+import { serverTimestamp, addDoc, collection } from "firebase/firestore";
+import { selectUser } from "../redux/userSlice";
+import Snackbar from "@mui/material/Snackbar";
+import autoAnimate from "@formkit/auto-animate";
 
-function SendMail({ user }) {
+function SendMail() {
+  const [open, setOpen] = useState(false);
   const isOpen = useSelector(selectSendMessageIsOpen);
   const isMinimized = useSelector(selectSendMessageIsMinimized);
   const dispatch = useDispatch();
+  const user = useSelector(selectUser);
+  const parent = useRef(null);
 
-  const { handleSubmit, register } = useForm();
+  useEffect(() => {
+    parent.current && autoAnimate(parent.current);
+  }, [parent]);
+
+  const { handleSubmit, register, reset } = useForm();
   const ref = useRef();
 
   const onSubmit = (formData) => {
-    console.log("formData: ", formData);
+    const emailsCollection = collection(db, "emails");
 
-    console.log(ref.current.innerText);
-    // db.collections("emails").add({
-    //   to: formData.to,
-    //   subject: formData.from,
-    //   message: ref.current.innerText,
-    //   time: serverTimestamp(),
-    //   from: user.email,
-    // });
+    addDoc(emailsCollection, {
+      to: formData.to,
+      subject: formData.subject,
+      message: ref.current.innerText,
+      from: user.email,
+      time: serverTimestamp(),
+      sentBy: user.displayName,
+    })
+      .then((docRef) => {
+        console.log("Document written with ID: ", docRef.id);
+        setOpen(true);
+      })
+      .catch((error) => {
+        console.error("Error adding document: ", error);
+      });
+    reset();
+    ref.current.innerText = "";
+    dispatch(closeSendMessage());
   };
   return (
     <form
+      ref={parent}
       className={`sendMail ${
         isOpen
           ? isMinimized
@@ -95,6 +116,13 @@ function SendMail({ user }) {
           Send
         </Button>
       </div>
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={open}
+        onClose={() => setOpen(false)}
+        autoHideDuration={2000}
+        message="Sent successfully."
+      />
     </form>
   );
 }

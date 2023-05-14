@@ -15,24 +15,24 @@ export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    login: (state) => {
+    login: (state, action) => {
       state.loading = true;
-      state.user = {
-        displayName: null,
-        email: null,
-        photoUrl: null,
-      };
+      state.user = action.payload;
       state.isLoggedIn = true;
       state.loading = false;
     },
     logout: (state) => {
       state.user = null;
       state.isLoggedIn = false;
+      state.loading = false;
+    },
+    toggleLoadingState: (state) => {
+      state.loading = !state.loading;
     },
   },
 });
 
-export const { login, logout } = userSlice.actions;
+export const { login, logout, toggleLoadingState } = userSlice.actions;
 
 export const selectLoading = (state) => state.user.loading;
 export const selectIsLoggedIn = (state) => state.user.isLoggedIn;

@@ -1,5 +1,5 @@
 import React from "react";
-import "./Sidebar.css";
+import "./styles/Sidebar.css";
 import { Button, IconButton } from "@mui/material";
 
 import {
@@ -17,8 +17,9 @@ import {
 } from "@mui/icons-material";
 import SidebarOption from "./SidebarOption";
 
-import { openSendMessage } from "../features/mailSlice";
+import { openSendMessage } from "../redux/mailSlice";
 import { useDispatch } from "react-redux";
+
 function Sidebar() {
   const dispatch = useDispatch();
   return (
@@ -34,6 +35,7 @@ function Sidebar() {
 
       <SidebarOption
         Icon={InboxOutlined}
+        navigateTo="/"
         title="Inbox"
         number={54}
         selected={true}
@@ -45,7 +47,12 @@ function Sidebar() {
         title="Important"
         number={64}
       />
-      <SidebarOption Icon={NearMeOutlined} title="Sent" number={5} />
+      <SidebarOption
+        navigateTo="/sent"
+        Icon={NearMeOutlined}
+        title="Sent"
+        number={5}
+      />
       <SidebarOption Icon={NoteOutlined} title="Drafts" number={15} />
       <SidebarOption Icon={ExpandMoreOutlined} title="More" />
 
