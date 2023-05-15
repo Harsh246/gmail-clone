@@ -3,7 +3,7 @@ import {
   MaximizeOutlined,
   MinimizeOutlined,
 } from "@mui/icons-material";
-import { Button, TextareaAutosize, Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import "../styles/SendMail.css";
 import { useDispatch, useSelector } from "react-redux";

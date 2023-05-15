@@ -16,7 +16,7 @@ import { Backdrop, CircularProgress } from "@mui/material";
 function App() {
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
-  const [cookies, setCookie] = useCookies();
+  const [cookies] = useCookies();
   const dispatch = useDispatch();
 
   const [checkState, setCheckState] = useState(true);

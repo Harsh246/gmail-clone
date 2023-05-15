@@ -11,7 +11,7 @@ import { useDispatch } from "react-redux";
 import { setSelectedMail } from "../redux/mailSlice";
 
 function EmailRow({ email }) {
-  const { id, from, subject, time, message } = email;
+  const { subject, time, message } = email;
   const navigate = useNavigate();
 
   const dispatch = useDispatch();

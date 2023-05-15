@@ -23,7 +23,7 @@ function Login() {
   const loading = useSelector(selectLoading);
   const dispatch = useDispatch();
 
-  const [cookies, setCookie] = useCookies();
+  const [, setCookie] = useCookies();
 
   const [open, setOpen] = React.useState(false);
 
