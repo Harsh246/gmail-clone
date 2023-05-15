@@ -17,7 +17,8 @@ function EmailRow({ email }) {
   const dispatch = useDispatch();
 
   const handleClick = () => {
-    email.time = new Date(email.time?.toDate()).toDateString();
+    email.time = new Date(time?.toDate())?.toDateString() || "";
+
     dispatch(setSelectedMail(email));
     navigate("/mail");
   };
@@ -43,7 +44,7 @@ function EmailRow({ email }) {
       </div>
 
       <p className="emailRow__time" onClick={handleClick}>
-        {new Date(time?.toDate()).toDateString()}
+        {new Date(time?.toDate())?.toDateString() || ""}
       </p>
     </div>
   );

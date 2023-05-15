@@ -41,8 +41,6 @@ function EmailList() {
   useEffect(() => {
     // fetchEmails();
 
-    console.log("rerendered");
-
     try {
       const emailsCollection = collection(db, "emails");
 
@@ -60,14 +58,12 @@ function EmailList() {
               emailList.push(doc.data({ serverTimestamps: "previous" }))
             );
             setEmails(emailList);
-            console.log("reee");
           })
 
           .catch((error) => {});
       };
 
       onSnapshot(emailsQuery, (querySnapshot) => {
-        console.log("querySnapshot: ", querySnapshot);
         setTimeout(() => {
           fetchUpdatedQuery();
         }, 1500);
@@ -75,9 +71,7 @@ function EmailList() {
     } catch (err) {}
   }, [user.email]);
 
-  useEffect(() => {
-    console.log(emails);
-  }, [emails]);
+  useEffect(() => {}, [emails]);
 
   return (
     <div className="emailList">
